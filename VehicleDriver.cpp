@@ -14,7 +14,8 @@ using namespace std;
 
 //function prototypes
 int collectVehicleNumberInput();
-
+void collectVehicleInfo(string& man, string& mod, string& col, int& lights, int position);
+string collectStringInput(string prompt, string errMessage);
 bool validateNotEmptyString(string strToTest);
 void clearInputStream();
 
@@ -25,13 +26,25 @@ int main()
 
 	int numVehicles = collectVehicleNumberInput();
 
+	Vehicle** vehicles = new Vehicle*[numVehicles];
+
+	for (int i = 0; i < numVehicles; i++)
+	{
+		string man, mod, col;
+		int lights;
+
+		collectVehicleInfo(man, mod, col, lights, i + 1);
+
+
+	}
+
 	//Closing program statements
 	system("pause");
 	return 0;
 }
 
 //function definitions
-// 
+
 //collectVehicleNumberInput()
 int collectVehicleNumberInput()
 {
@@ -52,19 +65,66 @@ int collectVehicleNumberInput()
 		//else
 		//	set validInput flag to true
 		if (cin.fail() || !(input >= 2 && input <= 10))
-		{
 			cout << "\n\nYour input was not a numeric input, less than 2, or greater than 10."
 				<< "\nInput must be a single numeric value between 2 and 10 inclusive.\n\n";
-
-			clearInputStream();
-		}
 		else
 		{
-			cout << endl << endl;
+			cout << endl;
 			validInput = true;
 		}
 
 	} while (validInput == false);
+
+	clearInputStream();
+
+	return input;
+}
+
+void collectVehicleInfo(string& man, string& mod, string& col, int& lights, int position)
+{
+	
+
+	cout << "Vehicle #" << position << "\n\n";
+
+	string prompt = "Vehicle Manufacture: ";
+
+	string errMessageBase = "\n\nInput is blank and cannot be blank.\n";
+	string errMessage =
+		errMessageBase + "You must input the name of a vehicle manufacturer.\n\n";
+
+	man = collectStringInput(prompt, errMessage);
+
+	prompt = "Model of " + man + " vehicle (Escape, F-150, etc.): ";
+
+	errMessage =
+		errMessageBase + "You must input the name of a vehicle model.\n\n";
+
+
+
+	prompt = "Color of the " + mod + " (White, Blue, etc.): "
+
+}
+
+string collectStringInput(string prompt, string errMessage)
+{
+	bool inputFlag = false;
+	string input;
+
+	do
+	{
+		cout << prompt;
+
+		getline(cin, input);
+
+		if (validateNotEmptyString(input) == false)
+			cout << errMessage;
+		else
+		{
+			cout << endl;
+			inputFlag = true;
+		}
+
+	} while (inputFlag == false);
 
 	return input;
 }
