@@ -1,26 +1,29 @@
+#include <iostream>
 #include <string>
 #include "Vehicle.h"
 
-void Vehicle::setManufactureName(std::string input)
+using namespace std;
+
+void Vehicle::setManufactureName(string input)
 {
 
 }
 
-std::string Vehicle::getManufactureName() const { return manufactureName; }
+string Vehicle::getManufactureName() const { return manufactureName; }
 
-void Vehicle::setModelName(std::string input)
+void Vehicle::setModelName(string input)
 {
 
 }
 
-std::string Vehicle::getModelName() const { return modelName; }
+string Vehicle::getModelName() const { return modelName; }
 
-void Vehicle::setVehicleColor(std::string input)
+void Vehicle::setVehicleColor(string input)
 {
 
 }
 
-std::string Vehicle::getVehicleColor() const { return vehicleColor; }
+string Vehicle::getVehicleColor() const { return vehicleColor; }
 
 void Vehicle::setNumberTailLights(int num)
 {
@@ -31,10 +34,12 @@ int Vehicle::getNumberTailLights() const { return numberTailLights; }
 
 Vehicle::Vehicle()
 {
-
+	manufactureName = "";
+	modelName = "";
+	vehicleColor = "";
+	numberTailLights = 0;
+	
+	cout << "Creating new Vehicle.\n\n";
 }
 
-Vehicle::~Vehicle()
-{
-
-}
+Vehicle::~Vehicle() { cout << "In Vehicle destructor.\n"; }
