@@ -3,6 +3,7 @@
 
 //Sources
 //validateNotEmptyString() and clearInputStream() copied from my lab 5 submission
+//destroyVehicles() logic derived from lab instructions
 
 //include and using statements
 #include <iostream>
@@ -16,6 +17,7 @@ using namespace std;
 int collectVehicleNumberInput();
 void createVehicles(const int& numVehicles, Vehicle** vehicles);
 void displayVehicles(const int& numVehicles, Vehicle** vehicles);
+void destroyVehicles(const int& numVehicles, Vehicle** vehicles);
 void collectVehicleInfo(string& man, string& mod, string& col, int position);
 string collectStringInput(string prompt, string errMessage);
 bool validateNotEmptyString(string strToTest);
@@ -31,6 +33,10 @@ int main()
 	Vehicle** vehicles = new Vehicle*[numVehicles];
 
 	createVehicles(numVehicles, vehicles);
+
+	displayVehicles(numVehicles, vehicles);
+
+	destroyVehicles(numVehicles, vehicles);
 
 	//Closing program statements
 	system("pause");
@@ -59,17 +65,21 @@ int collectVehicleNumberInput()
 		//else
 		//	set validInput flag to true
 		if (cin.fail() || !(input >= 2 && input <= 10))
+		{
 			cout << "\n\nYour input was not a numeric input, less than 2, or greater than 10."
 				<< "\nInput must be a single numeric value between 2 and 10 inclusive.\n\n";
+		}
 		else
 		{
 			cout << endl;
 			validInput = true;
 		}
 
+		clearInputStream();
+
 	} while (validInput == false);
 
-	clearInputStream();
+	
 
 	return input;
 }
@@ -108,7 +118,31 @@ void createVehicles(const int& numVehicles, Vehicle** vehicles)
 
 void displayVehicles(const int& numVehicles, Vehicle** vehicles)
 {
+	for (int i = 0; i < numVehicles; i++)
+		cout << right << setw(39) << "These are the vehicles you have owned:" << '\n'
+			<< setw(40) << "Vehicle Manufacture: " << vehicles[i]->getManufactureName() << '\n'
+			<< setw(40) << "Vehicle Model: " << vehicles[i]->getModelName() << '\n'
+			<< setw(40) << "Vehicle Color: " << vehicles[i]->getVehicleColor() << '\n'
+			<< setw(40) << "Number of Tail Lights per side (1-5): "
+			<< vehicles[i]->getNumberTailLights() << "\n\n";
+}
 
+void destroyVehicles(const int& numVehicles, Vehicle** vehicles)
+{
+	for (int i = 0; i < numVehicles; i++)
+	{
+		delete vehicles[i];
+		//vehicles[i] = NULL;
+
+		cout << endl << "Vehicle " << i << " deleted";
+	}
+
+	cout << endl << "Vehicles deleted" << endl;
+
+	delete vehicles;
+	vehicles = NULL;
+
+	cout << "vehicles object deleted." << endl;
 }
 
 void collectVehicleInfo(string& man, string& mod, string& col, int position)
