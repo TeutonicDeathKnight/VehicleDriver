@@ -79,19 +79,22 @@ int collectVehicleNumberInput()
 
 	} while (validInput == false);
 
-	
-
 	return input;
 }
 
 void createVehicles(const int& numVehicles, Vehicle** vehicles)
 {
+	//set rand() seed to 100 per lab instructions
 	srand(100);
 
 	for (int i = 0; i < numVehicles; i++)
 	{
 		string man, mod, col;
 		int lights;
+
+		//add extra line between vehicle inputs to match output example in lab instructions
+		if (i > 0)
+			cout << endl;
 
 		//collect user input for manufacture, model, color
 		//  assign values to related variables
@@ -112,15 +115,16 @@ void createVehicles(const int& numVehicles, Vehicle** vehicles)
 		vehicles[i]->setVehicleColor(col);
 		vehicles[i]->setNumberTailLights(lights);
 	}
-
-	cout << "\n\n";
 }
 
 void displayVehicles(const int& numVehicles, Vehicle** vehicles)
 {
+	//output display output header
+	cout << right << setw(39) << "These are the vehicles you have owned:" << '\n';
+
+	//output each line item for each vehicle
 	for (int i = 0; i < numVehicles; i++)
-		cout << right << setw(39) << "These are the vehicles you have owned:" << '\n'
-			<< setw(40) << "Vehicle Manufacture: " << vehicles[i]->getManufactureName() << '\n'
+		cout << setw(40) << "Vehicle Manufacture: " << vehicles[i]->getManufactureName() << '\n'
 			<< setw(40) << "Vehicle Model: " << vehicles[i]->getModelName() << '\n'
 			<< setw(40) << "Vehicle Color: " << vehicles[i]->getVehicleColor() << '\n'
 			<< setw(40) << "Number of Tail Lights per side (1-5): "
@@ -129,20 +133,19 @@ void displayVehicles(const int& numVehicles, Vehicle** vehicles)
 
 void destroyVehicles(const int& numVehicles, Vehicle** vehicles)
 {
+	//loop through the vehicles array
+	//	delete each vehicle object and set each pointer to null
 	for (int i = 0; i < numVehicles; i++)
 	{
 		delete vehicles[i];
-		//vehicles[i] = NULL;
-
-		cout << endl << "Vehicle " << i << " deleted";
+		vehicles[i] = NULL;
 	}
 
-	cout << endl << "Vehicles deleted" << endl;
-
+	//delete vehicles array and set pointer to vehicles array to null
 	delete vehicles;
 	vehicles = NULL;
 
-	cout << "vehicles object deleted." << endl;
+	cout << endl;
 }
 
 void collectVehicleInfo(string& man, string& mod, string& col, int position)
@@ -177,6 +180,8 @@ string collectStringInput(string prompt, string errMessage)
 	bool inputFlag = false;
 	string input;
 
+	//while input is not valid,
+	//	prompt and reprompt user for valid text input
 	do
 	{
 		cout << prompt;

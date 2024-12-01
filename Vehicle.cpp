@@ -34,5 +34,8 @@ Vehicle::~Vehicle()
 {
 	cout << "In Vehicle destructor.\n";
 
-	delete this;
+	manufactureName = "";
+	modelName = "";
+	vehicleColor = "";
+	numberTailLights = NULL;
 }
