@@ -14,7 +14,9 @@ using namespace std;
 
 //function prototypes
 int collectVehicleNumberInput();
-void collectVehicleInfo(string& man, string& mod, string& col, int& lights, int position);
+void createVehicles(const int& numVehicles, Vehicle** vehicles);
+void displayVehicles(const int& numVehicles, Vehicle** vehicles);
+void collectVehicleInfo(string& man, string& mod, string& col, int position);
 string collectStringInput(string prompt, string errMessage);
 bool validateNotEmptyString(string strToTest);
 void clearInputStream();
@@ -24,19 +26,11 @@ int main()
 {
 	cout << "Zachary Seeley -- Lab 6 - Dynamic Memory Assignment" << endl << endl;
 
-	int numVehicles = collectVehicleNumberInput();
+	const int numVehicles = collectVehicleNumberInput();
 
 	Vehicle** vehicles = new Vehicle*[numVehicles];
 
-	for (int i = 0; i < numVehicles; i++)
-	{
-		string man, mod, col;
-		int lights;
-
-		collectVehicleInfo(man, mod, col, lights, i + 1);
-
-
-	}
+	createVehicles(numVehicles, vehicles);
 
 	//Closing program statements
 	system("pause");
@@ -80,10 +74,45 @@ int collectVehicleNumberInput()
 	return input;
 }
 
-void collectVehicleInfo(string& man, string& mod, string& col, int& lights, int position)
+void createVehicles(const int& numVehicles, Vehicle** vehicles)
 {
-	
+	srand(100);
 
+	for (int i = 0; i < numVehicles; i++)
+	{
+		string man, mod, col;
+		int lights;
+
+		//collect user input for manufacture, model, color
+		//  assign values to related variables
+		collectVehicleInfo(man, mod, col, i + 1);
+
+		//create lights for vehicle using rand()
+		//	use the remainder of rand() divided by 6 to get a value between 0 and 5
+		//	repeat until lights value is between 1 and 5 inclusive
+		do
+			lights = rand() % 6;
+		while (!(lights >= 1 && lights <= 5));
+
+		//create new reference to vehicle object
+		//	then set object values using class setters, user inputs, and randomly generated number
+		vehicles[i] = new Vehicle;
+		vehicles[i]->setManufactureName(man);
+		vehicles[i]->setModelName(mod);
+		vehicles[i]->setVehicleColor(col);
+		vehicles[i]->setNumberTailLights(lights);
+	}
+
+	cout << "\n\n";
+}
+
+void displayVehicles(const int& numVehicles, Vehicle** vehicles)
+{
+
+}
+
+void collectVehicleInfo(string& man, string& mod, string& col, int position)
+{
 	cout << "Vehicle #" << position << "\n\n";
 
 	string prompt = "Vehicle Manufacture: ";
@@ -99,10 +128,14 @@ void collectVehicleInfo(string& man, string& mod, string& col, int& lights, int 
 	errMessage =
 		errMessageBase + "You must input the name of a vehicle model.\n\n";
 
+	mod = collectStringInput(prompt, errMessage);
 
+	prompt = "Color of the " + mod + " (White, Blue, etc.): ";
 
-	prompt = "Color of the " + mod + " (White, Blue, etc.): "
+	errMessage =
+		errMessageBase + "You must input the name of a vehicle color.\n\n";
 
+	col = collectStringInput(prompt, errMessage);
 }
 
 string collectStringInput(string prompt, string errMessage)
@@ -119,10 +152,7 @@ string collectStringInput(string prompt, string errMessage)
 		if (validateNotEmptyString(input) == false)
 			cout << errMessage;
 		else
-		{
-			cout << endl;
 			inputFlag = true;
-		}
 
 	} while (inputFlag == false);
 
