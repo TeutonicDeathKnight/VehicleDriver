@@ -24,6 +24,7 @@ Vehicle::Vehicle()
 {
 	cout << "Creating new Vehicle.\n\n";
 
+	//set each member variable to empty string or 0
 	manufactureName = "";
 	modelName = "";
 	vehicleColor = "";
@@ -34,6 +35,7 @@ Vehicle::~Vehicle()
 {
 	cout << "In Vehicle destructor.\n";
 
+	//set each member variable to empty string or null values
 	manufactureName = "";
 	modelName = "";
 	vehicleColor = "";
